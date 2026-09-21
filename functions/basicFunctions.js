@@ -5,9 +5,12 @@ function getTime() {
     // return{
     //     time: "Yea you are not getting the time"
     // }
+    const estTime = new Date().toLocaleString("en-US", {
+        timeZone: "America/New_York"
+    });
 
     return {
-        time: new Date().toLocaleString("en-US")
+        time: estTime
     };
 }
 

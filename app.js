@@ -24,40 +24,48 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-//adding the que from bullMQ
-const chatQueue = require("./queues/chatQueue");
-const { QueueEvents } = require("bullmq");
-const connection = require('./configs/connection.js');
-const queueEvents = new QueueEvents("chatQueue", { connection });
 
 
-//This is waiting until the the workers have completed. Than its emiting the result back to the user
-//----Class DEMO 2.1 -- Allows users to have there own chat messages
-queueEvents.on("completed", async ({ jobId }) => {
 
-    
-    const job = await chatQueue.getJob(jobId);
+//Week ten changes. Adding the abilty for the test to run. The defualt app is trying to connect to redis. This checks if its a test
+let chatQueue;
+let queueEvents;
+//
+if(process.env.NODE_ENV !== "test") {
+    const { QueueEvents } = require("bullmq");
+    const connection = require('./configs/connection.js');
+    chatQueue = require("./queues/chatQueue");
+    queueEvents = new QueueEvents("chatQueue", { connection });
 
-    if (!job){
-        return;
-    }
+    //This is waiting until the the workers have completed. Than its emiting the result back to the user
+    //----Class DEMO 2.1 -- Allows users to have there own chat messages
+    queueEvents.on("completed", async ({ jobId }) => {
+        const job = await chatQueue.getJob(jobId);
 
-    const result = job.returnvalue;
-
-    if (result){
-        const socketId = job.data.socketId;
-        //----Class DEMO 2.1. Now if user A and B ask a questions, user A will now get there responce and not user B responce
-        io.to(socketId).emit(
-            "chat message",
-            result
-        );
-    }
-});
+        if (!job){
+            return;
+        }
+        const result = job.returnvalue;
+        if (result){
+            const socketId = job.data.socketId;
+            //----Class DEMO 2.1. Now if user A and B ask a questions, user A will now get there responce and not user B responce
+            io.to(socketId).emit(
+                "chat message",
+                result
+            );
+        }
+    });
+}
 
 //sockets
 io.on("connection", (socket) => {
     //Sending the message to the worker
     socket.on("bot message", async (msg) => {
+
+        //Week ten changes. Adding the abilty for the test to run. Checks if chatQueue is define
+        if (!chatQueue) {
+            return;
+        }
 
         const job = await chatQueue.add("botJob", { message: msg, socketId: socket.id });
 
