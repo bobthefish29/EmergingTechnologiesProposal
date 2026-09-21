@@ -1,0 +1,106 @@
+<div id="chatHolder">
+
+    <div id="chatBox"></div>
+
+    {{!-- <div class="chatInputArea">
+        <input type="text" id="chatInput" placeholder="Type @bot to ask ChatGPT...">
+        <button onclick="sendMessage()">Send</button>
+    </div> --}}
+
+    <form class="chatInputArea" onsubmit="handleSubmit(event)">
+        <input type="text" id="chatInput" placeholder="Type @bot to ask ChatGPT..." autocomplete="off">
+        <button type="submit">Send</button>
+    </form>
+
+    {{!-- Basic quesions --}}
+    <button onclick="fakeChatMessage_Weather(event)" value="@bot What is the wather in new york usa?">@bot What is the wather in new york usa?</button>
+    <input id="BotInput_Weather" type="text" value="@bot What is the wather in new york usa?" hidden="false" >
+    <button onclick="fakeChatMessage_CatFact(event)" value="@bot Can you give me a cat fact?">@bot Can you give me a cat fact?</button>
+    <input id="BotInput_Cat" type="text" value="@bot Can you give me a cat fact?" hidden="false" >
+    <button onclick="fakeChatMessage_Time(event)" value="@bot What time is it?">@bot What time is it?</button>
+    <input id="BotInput_Time" type="text" value="@bot What time is it?" hidden="false" >
+    <button onclick="fakeChatMessage_Math(event)" value="@bot What is 10 times 5">@bot What is 10 times 5</button>
+    <input id="BotInput_Math" type="text" value="@bot What is 10 times 5" hidden="false" >
+    <button onclick="fakeChatMessage_Redis(event)" value="@bot What is the status of the redis server?">@bot What is the status of the redis server?</button>
+    <input id="BotInput_Redis" type="text" value="@bot What is the status of the redis server?" hidden="false" >
+
+</div>
+
+{{!-- script for the button's --}}
+<script>
+    function handleSubmit(event) {
+        event.preventDefault();
+        sendMessage();
+    }
+
+    function fakeChatMessage_Weather(event){
+        const botInput = document.getElementById("BotInput_Weather");
+        socket.emit("bot message", botInput.value.toLowerCase().trim());
+    }
+    function fakeChatMessage_CatFact(event){
+        const botInput = document.getElementById("BotInput_Cat");
+        socket.emit("bot message", botInput.value.toLowerCase().trim());
+    }
+    function fakeChatMessage_Time(event){
+        const botInput = document.getElementById("BotInput_Time");
+        socket.emit("bot message", botInput.value.toLowerCase().trim());
+    }
+    function fakeChatMessage_Math(event){
+        const botInput = document.getElementById("BotInput_Math");
+        socket.emit("bot message", botInput.value.toLowerCase().trim());
+    }
+    function fakeChatMessage_Redis(event){
+        const botInput = document.getElementById("BotInput_Redis");
+        socket.emit("bot message", botInput.value.toLowerCase().trim());
+    }
+</script>
+
+
+{{!-- Script for posting the chat message --}}
+<script>
+    function sendMessage() {
+        const input = document.getElementById("chatInput");
+        const botInput = "@bot"
+
+        //making custom event
+        if (input.value.trim() !== "") {
+            if (input.value.toLowerCase().trim().includes(botInput)) {
+                let msg = input.value.replace(/@bot\s*/i, ".");
+                socket.emit("bot message", msg);
+            } else {
+                socket.emit("chat message", input.value);
+            }
+            input.value = "";
+        }
+    };
+
+    function addMessage(text, type, username) {
+        const chatBox = document.getElementById("chatBox");
+
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("messageWrapper", type);
+
+        const user = document.createElement("p");
+        user.classList.add("userLabel");
+        user.innerText = username;
+
+        const message = document.createElement("div");
+        message.classList.add("message", type);
+        message.innerHTML = text;
+
+        wrapper.appendChild(user);
+        wrapper.appendChild(message);
+
+        chatBox.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    socket.on("chat message", (data) => {
+        if (data.username == "bot") {
+            addMessage(data.text, "bot", "GPT-3.5-Turbo");
+        } else {
+            addMessage(data.text, "user", "User");
+        }
+    });
+
+</script>

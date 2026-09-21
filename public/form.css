@@ -1,0 +1,62 @@
+h1{
+    color: white;
+}
+
+/* Form container */
+.formHolder {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    width: 350px;
+}
+
+.formHolder form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.errorMessage{
+    color: red;
+}
+
+.formHolder label {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.formHolder input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+
+.formHolder input:hover{
+    border-color: blue;
+}
+
+.formHolder button {
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.formHolder button:hover {
+    background: #1d4ed8;
+}
+
+.formHolder button:active {
+    transform: scale(0.98);
+}

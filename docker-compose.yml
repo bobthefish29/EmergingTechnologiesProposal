@@ -1,0 +1,51 @@
+services:
+
+  #Creating the applicaion container
+  app:
+    build: .
+    container_name: chatbot-app
+    #Importing the .env into the project
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "3000:3000"
+    #Does not start the application untill the redis server is healthy
+    depends_on:
+      redis:
+        condition: service_healthy
+
+
+  #Meking the worker container
+  worker:
+    build: .
+    container_name: chatbot-worker
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    #Tells this container to run worker
+    command: npm run worker
+    #If the redis server is not good, the application/worker will not build
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  #This is making the redis server
+  redis:
+    image: redis:7
+    container_name: chatbot-redis
+    volumes:
+      - redis-data:/data
+    #This opens command prompt, sets the redis server address, then pings it and returns the value.
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  redis-data:

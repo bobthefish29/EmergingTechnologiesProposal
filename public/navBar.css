@@ -1,0 +1,42 @@
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111827;
+}
+
+/* Link groups, found online */
+.nav-left, .nav-right {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #e5e7eb;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+/* Hover effect */
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+/* Logout special styling */
+.navbar .logout {
+    background: #2563eb;
+    color: white;
+}
+
+.navbar .logout:hover {
+    background: #1d4ed8;
+}

@@ -1,0 +1,125 @@
+/* Chat container */
+#chatHolder {
+    width: 600px;
+    height: 75vh;
+    margin: 40px auto;
+    background: #1f2937;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+/* Chat box itself */
+#chatBox {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#chatBox::-webkit-scrollbar {
+    display: none;
+}
+
+/* message wraperBoilderplate */
+.messageWrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+/* How im determning how to move the message to what side */
+.messageWrapper.user {
+    align-self: flex-end;
+    text-align: right;
+}
+.messageWrapper.other, .messageWrapper.bot {
+    align-self: flex-start;
+}
+
+/*Lable for dispaly  */
+.userLabel {
+    font-size: 12px;
+    margin-bottom: 4px;
+    opacity: 0.75;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+.messageWrapper.user .userLabel {
+    color: #93c5fd;
+}
+.messageWrapper.other .userLabel {
+    color: #9ca3af;
+}
+.messageWrapper.bot .userLabel {
+    color: #6ee7b7;
+}
+
+/* message boilder plate */
+.message {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    width: fit-content;
+    max-width: 75%;
+}
+
+/*bubble's for different types */
+.messageWrapper.user .message {
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+.messageWrapper.other .message {
+    background: #374151;
+    color: #e5e7eb;
+    border-bottom-left-radius: 4px;
+}
+.messageWrapper.bot .message {
+    background: #10b981;
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+.chatPing{
+    color: red;
+}
+
+/* Inputs */
+.chatInputArea {
+    display: flex;
+    padding: 15px;
+    background: #111827;
+    gap: 10px;
+}
+#chatInput {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+
+#chatInput:hover {
+    border: 1px solid #2563eb;
+}
+
+/* Send button */
+.chatInputArea button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.chatInputArea button:hover {
+    background: #1d4ed8;
+}
+
+/*Send Buttone*/
+
