@@ -1,0 +1,39 @@
+#This is the name of the github workflow
+name: Chatbot CI
+
+#Definds when the workflow should run. In this case every push and pull request on the main branch
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+#Definds the jobs that will run in the workflow
+jobs:
+  #Everything that will be run in the job
+  build-and-test:
+    #This is cool, it will make a temp ubuntu machine to run this test
+    runs-on: ubuntu-latest
+    #Starts the steps from the top to the bottom
+    steps:
+      #downloads the code from the repo to the temp machine
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      #sets up a node.js environment on the temp machine, and caches the npm dependencies for faster builds
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      #Installs the dependencies. Ci is designed for a CI environment that will install the exact versions 
+      - name: Install dependencies
+        run: npm ci
+      #run the project test. The --if-present is a flag that will check if there even is a test. if there is no test, it will still work
+      - name: Run tests
+        run: npm test --if-present
+
+      #lastly this will build the docker image. the {{ github.sha }} is a unique identifier. Each time the this runs, it will make a new image version
+      - name: Build Docker image
+        run: docker build -t chatbot-ci:${{ github.sha }} .
