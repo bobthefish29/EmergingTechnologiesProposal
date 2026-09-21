@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon app.js",
     "worker": "node workers/chatWorker.js"
   },
@@ -31,6 +31,8 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2"
   }
 }

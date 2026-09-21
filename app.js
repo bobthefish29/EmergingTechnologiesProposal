@@ -75,7 +75,14 @@ app.use("/", chatRouter);
 app.use((req, res) => {
     res.redirect("/");
 });
+
 //Week Seven Change. Adding 0.0.0.0. to allow connections from outside the server
-server.listen(PORT, "0.0.0.0", () => {
-    console.log(`The server is running on port: ${PORT}`);
-});
+//week ten change. Adding the abilty for a test to be run for the CI/CD pipeline.
+
+if(require.main === module){
+    server.listen(PORT, "0.0.0.0", () => {
+        console.log(`The server is running on port: ${PORT}`);
+    });
+}
+
+module.exports = server;
