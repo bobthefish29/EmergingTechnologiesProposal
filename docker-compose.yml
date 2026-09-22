@@ -2,7 +2,7 @@ services:
 
   #Creating the applicaion container
   app:
-    build: .
+    image: ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
     container_name: chatbot-app
     #Importing the .env into the project
     env_file:
@@ -20,7 +20,7 @@ services:
 
   #Meking the worker container
   worker:
-    build: .
+    image: ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
     container_name: chatbot-worker
     env_file:
       - .env

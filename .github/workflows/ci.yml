@@ -50,8 +50,11 @@ jobs:
         run: |
           docker build \
             -t ghcr.io/bobthefish29/emergingtechnologiesproposal:latest \
+            -t ghcr.io/bobthefish29/emergingtechnologiesproposal:${{ github.sha }} \
             .
       #Pushes the docker image to the github registry.
       - name: Push Docker image
+        if: github.event_name == 'push'
         run: |
           docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
+          docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:${{ github.sha }}
