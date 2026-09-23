@@ -40,6 +40,7 @@ jobs:
 
       #Logs into the github registry to push the docker image. 
       - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -58,3 +59,16 @@ jobs:
         run: |
           docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
           docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:${{ github.sha }}
+                # Connects to the AWS EC2 server and deploys the new Docker image.
+      #Connects to my AWS ec2 server to update the site each time there is a push request
+      - name: Deploy to AWS EC2
+        if: github.event_name == 'push'
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/chatbot
+            docker compose pull
+            docker compose up -d
