@@ -3,6 +3,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: linear-gradient(135deg, #1f2937, #111827); */
-    background: linear-gradient(135deg, #e0e2e6, #089b40);
+    background: linear-gradient(135deg, #1f2937, #111827);
+    /* background: linear-gradient(135deg, #e0e2e6, #089b40); */
 }

@@ -59,7 +59,7 @@ jobs:
         run: |
           docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
           docker push ghcr.io/bobthefish29/emergingtechnologiesproposal:${{ github.sha }}
-                # Connects to the AWS EC2 server and deploys the new Docker image.
+          
       #Connects to my AWS ec2 server to update the site each time there is a push request
       - name: Deploy to AWS EC2
         if: github.event_name == 'push'
