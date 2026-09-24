@@ -1,6 +1,6 @@
 services:
 
-  #Creating the applicaion container
+  #Creating the applicaion container Pulling from my github container registry now, and no longer building the image from the dockerfile.
   app:
     image: ghcr.io/bobthefish29/emergingtechnologiesproposal:latest
     container_name: chatbot-app

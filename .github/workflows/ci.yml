@@ -46,7 +46,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      #Builds the docker image and tags it with the latest tag.
+      #Builds the docker image and tags it with the latest tag. SHA is a unique id for the commit
       - name: Build Docker image
         run: |
           docker build \
